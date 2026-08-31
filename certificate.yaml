@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: frontend-tls
+  namespace: default
+spec:
+  secretName: frontend-tls-secret
+  dnsNames:
+    - app.fkvr.xyz
+    - api.fkvr.xyz
+  issuerRef:
+    name: app-issuer
+    kind: ClusterIssuer

@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: app-issuer
+spec:
+  acme:
+    email: ememitorokrevor@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: app-issuer-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
