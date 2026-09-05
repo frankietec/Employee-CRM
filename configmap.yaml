@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: backend-config
 data:
-  POSTGRES_DB: my_database
+  POSTGRES_DB: postgres

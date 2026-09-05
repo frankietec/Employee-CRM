@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: 945253721395.dkr.ecr.us-east-1.amazonaws.com/frontend-crm:latest
+        image: 945253721395.dkr.ecr.us-east-1.amazonaws.com/employee-management-api-frontend:1.0.0
         ports:
-        - containerPort: 5173
+        - containerPort: 80
