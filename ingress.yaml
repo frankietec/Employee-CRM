@@ -2,35 +2,48 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
+  namespace: default
   annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  tls:
-  - hosts:
-    - app.fkvr.xyz
-    - api.fkvr.xyz
-    secretName: frontend-tls-secret
-  rules:
-  # frontend
-  - host: app.fkvr.xyz
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 80
+    # Force HTTP to HTTPS redirection
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 
-  # backend
-  - host: api.fkvr.xyz
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: backend
-            port:
-              number: 3000
+    # Enable Cross-Origin Resource Sharing (CORS) for frontend-to-backend API calls
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://app.fkvr.xyz, http://app.fkvr.xyz"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+
+    # Uncomment if using cert-manager for automatic Let's Encrypt certificates
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    
+    - hosts:
+        - app.fkvr.xyz
+        - api.fkvr.xyz
+      secretName: frontend-tls-secret
+  rules:
+    # Frontend App Route
+    - host: app.fkvr.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+
+    # Backend API Route
+    - host: api.fkvr.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 3000
