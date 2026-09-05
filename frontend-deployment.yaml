@@ -14,10 +14,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: 945253721395.dkr.ecr.us-east-1.amazonaws.com/employee-frontend:latest
-        imagePullPolicy: Always
+        image: 945253721395.dkr.ecr.us-east-1.amazonaws.com/frontend-crm:latest
         ports:
         - containerPort: 5173
-        env:
-        - name: __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
-          value: "app.fkvr.xyz,.fkvr.xyz"
